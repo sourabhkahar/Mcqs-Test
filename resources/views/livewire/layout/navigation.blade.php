@@ -16,107 +16,76 @@ new class extends Component
     }
 }; ?>
 
-<nav x-data="{ open: false }" class="bg-white border-b border-gray-100">
-    <!-- Primary Navigation Menu -->
-    <div class="px-4 mx-auto max-w-7xl sm:px-6 lg:px-8">
-        <div class="flex justify-between h-16">
-            <div class="flex">
-                <!-- Logo -->
-                <div class="flex items-center shrink-0">
-                    <a href="{{ route('dashboard') }}" wire:navigate>
-                        <x-application-logo class="block w-auto text-gray-800 fill-current h-9" />
-                    </a>
-                </div>
+<div>
+    <!-- Desktop Header -->
+    <header class="items-center hidden w-full px-6 py-2 bg-white sm:flex">
+       <div class="w-1/2"></div>
+       <div x-data="{ isOpen: false }" class="relative flex justify-end w-1/2">
+           <button @click="isOpen = !isOpen" class="z-10 w-12 h-12 overflow-hidden border-4 border-gray-400 rounded-full realtive hover:border-gray-300 focus:border-gray-300 focus:outline-none">
+               <img src="https://source.unsplash.com/uJ8LNVCBjFQ/400x400">
+           </button>
+           <button x-show="isOpen" @click="isOpen = false" class="fixed inset-0 w-full h-full cursor-default"></button>
+           <div x-show="isOpen" class="absolute w-32 py-2 mt-16 bg-white rounded-lg shadow-lg">
+               <a href="#" class="block px-4 py-2 account-link hover:text-white">Account</a>
+               <a href="{{route('profile')}}" class="block px-4 py-2 account-link hover:text-white" wire:navigate>Profile</a>
+               <a href="#" class="block px-4 py-2 account-link hover:text-white" wire:click="logout">Sign Out</a>
+           </div>
+       </div>
+    </header>
+    
+    <!-- Mobile Header & Nav -->
+    <header x-data="{ isOpen: false }" class="w-full px-6 py-5 bg-sidebar sm:hidden">
+       <div class="flex items-center justify-between">
+           <a href="index.html" class="text-3xl font-semibold text-white uppercase hover:text-gray-300">Admin</a>
+           <button @click="isOpen = !isOpen" class="text-3xl text-white focus:outline-none">
+               <i x-show="!isOpen" class="fas fa-bars"></i>
+               <i x-show="isOpen" class="fas fa-times"></i>
+           </button>
+       </div>
+    
+       <!-- Dropdown Nav -->
+       <nav :class="isOpen ? 'flex': 'hidden'" class="flex flex-col pt-4">
+           <a href="index.html" class="flex items-center py-2 pl-4 text-white opacity-75 hover:opacity-100 nav-item">
+               <i class="mr-3 fas fa-tachometer-alt"></i>
+               Dashboard
+           </a>
+           <a href="blank.html" class="flex items-center py-2 pl-4 text-white active-nav-link nav-item">
+               <i class="mr-3 fas fa-sticky-note"></i>
+               Blank Page
+           </a>
+           <a href="tables.html" class="flex items-center py-2 pl-4 text-white opacity-75 hover:opacity-100 nav-item">
+               <i class="mr-3 fas fa-table"></i>
+               Tables
+           </a>
+           <a href="forms.html" class="flex items-center py-2 pl-4 text-white opacity-75 hover:opacity-100 nav-item">
+               <i class="mr-3 fas fa-align-left"></i>
+               Forms
+           </a>
+           <a href="tabs.html" class="flex items-center py-2 pl-4 text-white opacity-75 hover:opacity-100 nav-item">
+               <i class="mr-3 fas fa-tablet-alt"></i>
+               Tabbed Content
+           </a>
+           <a href="calendar.html" class="flex items-center py-2 pl-4 text-white opacity-75 hover:opacity-100 nav-item">
+               <i class="mr-3 fas fa-calendar"></i>
+               Calendar
+           </a>
+           <a href="#" class="flex items-center py-2 pl-4 text-white opacity-75 hover:opacity-100 nav-item">
+               <i class="mr-3 fas fa-cogs"></i>
+               Support
+           </a>
+           <a href="#" class="flex items-center py-2 pl-4 text-white opacity-75 hover:opacity-100 nav-item">
+               <i class="mr-3 fas fa-user"></i>
+               My Account
+           </a>
+           <a href="#" class="flex items-center py-2 pl-4 text-white opacity-75 hover:opacity-100 nav-item">
+               <i class="mr-3 fas fa-sign-out-alt"></i>
+               Sign Out
+           </a>
+           <button class="flex items-center justify-center w-full py-2 mt-3 font-semibold bg-white rounded-lg shadow-lg cta-btn hover:shadow-xl hover:bg-gray-300">
+               <i class="mr-3 fas fa-arrow-circle-up"></i> Upgrade to Pro!
+           </button>
+       </nav>
+    </header>
+</div>
 
-                <!-- Navigation Links -->
-                <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
-                        {{ __('Dashboard') }}
-                    </x-nav-link>
-                </div>
-            </div>
 
-            <!-- Settings Dropdown -->
-            <div class="hidden sm:flex sm:items-center sm:ms-6">
-                <x-dropdown align="right" width="48">
-                    <x-slot name="trigger">
-                        <button class="inline-flex items-center px-3 py-2 text-sm font-medium leading-4 text-gray-500 transition duration-150 ease-in-out bg-white border border-transparent rounded-md hover:text-gray-700 focus:outline-none">
-                            <div x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name" x-on:profile-updated.window="name = $event.detail.name"></div>
-
-                            <div class="ms-1">
-                                <svg class="w-4 h-4 fill-current" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                    <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                                </svg>
-                            </div>
-                        </button>
-                    </x-slot>
-
-                    <x-slot name="content">
-                        <x-dropdown-link :href="route('profile')" wire:navigate>
-                            {{ __('Profile') }}
-                        </x-dropdown-link>
-
-                        <x-dropdown-link :href="route('users.index')" wire:navigate>
-                            {{ __('Users') }}
-                        </x-dropdown-link>
-
-                        <x-dropdown-link :href="route('roles.index')" wire:navigate>
-                            {{ __('Roles') }}
-                        </x-dropdown-link>
-
-                        <x-dropdown-link :href="route('products.index')" wire:navigate>
-                            {{ __('Products') }}
-                        </x-dropdown-link>
-
-                        <!-- Authentication -->
-                        <button wire:click="logout" class="w-full text-start">
-                            <x-dropdown-link>
-                                {{ __('Log Out') }}
-                            </x-dropdown-link>
-                        </button>
-                    </x-slot>
-                </x-dropdown>
-            </div>
-
-            <!-- Hamburger -->
-            <div class="flex items-center -me-2 sm:hidden">
-                <button @click="open = ! open" class="inline-flex items-center justify-center p-2 text-gray-400 transition duration-150 ease-in-out rounded-md hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500">
-                    <svg class="w-6 h-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                </button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
-        <div class="pt-2 pb-3 space-y-1">
-            <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')" wire:navigate>
-                {{ __('Dashboard') }}
-            </x-responsive-nav-link>
-        </div>
-
-        <!-- Responsive Settings Options -->
-        <div class="pt-4 pb-1 border-t border-gray-200">
-            <div class="px-4">
-                <div class="text-base font-medium text-gray-800" x-data="{{ json_encode(['name' => auth()->user()->name]) }}" x-text="name" x-on:profile-updated.window="name = $event.detail.name"></div>
-                <div class="text-sm font-medium text-gray-500">{{ auth()->user()->email }}</div>
-            </div>
-
-            <div class="mt-3 space-y-1">
-                <x-responsive-nav-link :href="route('profile')" wire:navigate>
-                    {{ __('Profile') }}
-                </x-responsive-nav-link>
-
-                <!-- Authentication -->
-                <button wire:click="logout" class="w-full text-start">
-                    <x-responsive-nav-link>
-                        {{ __('Log Out') }}
-                    </x-responsive-nav-link>
-                </button>
-            </div>
-        </div>
-    </div>
-</nav>
