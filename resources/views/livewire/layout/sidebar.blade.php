@@ -19,6 +19,10 @@ new class extends Component {
                 <i class="mr-3 fas fa-tachometer-alt"></i>
                 Dashboard
             </a>
+            <a href="{{route('category')}}" class="flex items-center py-4 pl-6 text-white opacity-75 hover:opacity-100 nav-item {{request()->routeIs('dashboard')?'active-nav-link':''}}" wire:navigate>
+                <i class="mr-3 fas fa-tachometer-alt"></i>
+                Category
+            </a>
             <a href="{{route('profile')}}" class="flex items-center py-4 pl-6 text-white nav-item {{request()->routeIs('profile')?'active-nav-link':''}}" wire:navigate>
                 <i class="mr-3 fas fa-sticky-note"></i>
                 Profile

@@ -14,7 +14,7 @@ Route::view('/', 'welcome');
         Route::view('question', 'question')->name('question');
         // Route::view('category', 'category')->name('category');
         
-        Route::get('/category', [CategoryController::class, 'index']);
+        Route::get('/category', [CategoryController::class, 'index'])->name('category');
         Route::get('/category/create', [CategoryController::class, 'create'])->name('createCategory');
         // Our resource routes
         Route::resource('roles', RoleController::class);

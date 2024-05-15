@@ -1,0 +1,5 @@
+<div>
+    
+    {{ $categories }}
+
+</div>

@@ -1,6 +1,7 @@
 <?php
 
 use Livewire\Volt\Component;
+use APP\Http\Livewire\DataTable;
 
 new class extends Component {
     public function addCategory(){
@@ -104,7 +105,7 @@ new class extends Component {
                     </div>
                 </div>
             </div>
-            <table class="min-w-full leading-normal">
+            {{-- <table class="min-w-full leading-normal">
                 <thead>
                     <tr>
                         <th
@@ -253,7 +254,9 @@ new class extends Component {
                         </td>
                     </tr>
                 </tbody>
-            </table>
+            </table> --}}
+            <livewire:data-table />
+
         </div>
         <p class="pt-3 text-gray-600">
         </p>
